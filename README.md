@@ -15,7 +15,7 @@ git clone https://github.com/MartinsOnuoha/laravel-vue-minimal.git
 ### Install Dependencies
 
 ```bash
-yarn && composer install
+npm && composer install
 ```
 
 ### Copy .env
@@ -29,7 +29,12 @@ cp .env.example .env
 ```bash
 php artisan key:generate
 ```
-
+```bash
+php artisan migraye:fresh --seed
+```
+```bash
+npm i
+```
 ### Start Server
 
 ```bash
