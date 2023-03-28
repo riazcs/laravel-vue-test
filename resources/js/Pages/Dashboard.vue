@@ -1,93 +1,73 @@
 <template>
   <div>
-    <div id="page-wrapper" style="padding-left: 160px">
+    <div class="my-5">
+      <h2 class="panel-title">Dashboard</h2>
+    </div>
+    <div id="page-wrapper mb-4">
       <div class="container mt-5 ml-5">
-        <div class="row" style="margin-right: 40px; margin-left: 20px">
-          <div class="col-md-12">
-            <div
-              class="panel panel-default mt-3"
-              style="margin-left: 20px; padding: 20px 10px 60px 10px"
+        <div class="row">
+          <div class="col-6 my-3">
+            <h3 class="panel-title">Product list</h3>
+          </div>
+          <div class="col-3 my-3">
+            <button
+              v-if="canAdd"
+              @click="initProduct()"
+              class="btn btn-sm btn-outline-secondary float-right"
             >
-              <div>
-                <h3
-                  class="panel-title"
-                  style="display: inline; margin-right: 10px"
-                >
-                  Product list
-                </h3>
-                <button @click="initProduct()" class="add-new-btn">
-                  Add New
-                </button>
-                <div class="float-right pb-3">
-                  <div class="search-container float-right">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="search"
-                      placeholder="Search product"
-                    />
+              Add New
+            </button>
+          </div>
+          <div class="col-3 my-3">
+            <button
+              @click="logout()"
+              class="btn btn-sm btn-outline-secondary float-right"
+            >
+              Logout
+            </button>
+          </div>
+          <table class="table table-bordered table-striped">
+            <tbody class="bg-secondary text-white">
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th v-if="canDelete || canEdit">Action</th>
+              </tr>
+            </tbody>
+
+            <tr v-for="(product, index) in products" :key="index">
+              <td>
+                {{ product.title }}
+              </td>
+              <td>
+                {{ product.descr }}
+              </td>
+
+              <td v-if="canDelete || canEdit">
+                <div class="row">
+                  <div class="col-4">
                     <button
-                      class="float-right"
-                      type="submit"
-                      @click="fetchProducts"
+                      v-if="canEdit"
+                      @click="initUpdate(product.id)"
+                      class="btn btn-success btn-sm"
                     >
-                      <i class="fa fa-search"></i>
+                      Edit
                     </button>
                   </div>
+                  <div class="col-4 mx-2">
+                    <button
+                      v-if="canDelete"
+                      @click="deleteproduct(index)"
+                      class="btn btn-danger btn-sm mx-2"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  <div class="col-4"></div>
                 </div>
-              </div>
-              <div>
-                <span style="display: inline-block; margin: 8px 0"
-                  ><b>
-                    Total product: {{ products ? products.length : 0 }}</b
-                  ></span
-                >
-              </div>
-              <div class="panel-body">
-                <table
-                  class="table table-bordered table-striped"
-                  v-if="products"
-                >
-                  <tbody class="bg-secondary text-white">
-                    <tr>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Action</th>
-                    </tr>
-                  </tbody>
-
-                  <tr v-for="(product, index) in paginatedItems" :key="index">
-                    <td>
-                      {{ product.title }}
-                    </td>
-                    <td>
-                      {{ product.description }}
-                    </td>
-                    <td>
-                      {{ product.link }}
-                    </td>
-                    <td>
-                      {{ product.is_active == 1 ? "Active" : "Inactive" }}
-                    </td>
-                    <td>
-                      <button v-if="canEdit"
-                        @click="initUpdate(index)"
-                        class="btn btn-success btn-sm"
-                      >
-                        <i class="fa fa-edit"></i>
-                      </button>
-                      <button v-if="canDelete"
-                        @click="deleteproduct(index)"
-                        class="btn btn-danger btn-sm"
-                      >
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
+              </td>
+            </tr>
+          </table>
         </div>
 
         <div
@@ -111,25 +91,23 @@
               </div>
               <div class="modal-body">
                 <div class="form-group">
-                  <label for="name">Title:</label>
                   <input
                     type="text"
                     name="name"
                     id="name"
-                    placeholder="product Name"
+                    placeholder="Product title"
                     class="form-control"
                     v-model="product.title"
                   />
                 </div>
                 <div class="form-group">
-                  <label for="description">Description:</label>
                   <textarea
                     name="description"
                     id="description"
                     cols="30"
                     rows="5"
                     class="form-control"
-                    placeholder="product Description"
+                    placeholder="Product Description"
                     v-model="product.descr"
                   ></textarea>
                 </div>
@@ -178,22 +156,20 @@
               </div>
               <div class="modal-body">
                 <div class="form-group">
-                  <label>Title:</label>
                   <input
                     type="text"
-                    placeholder="product Name"
+                    placeholder="Product title"
                     class="form-control"
                     v-model="update_product.title"
                   />
                 </div>
                 <div class="form-group">
-                  <label for="description">Description:</label>
                   <textarea
                     cols="30"
                     rows="5"
                     class="form-control"
-                    placeholder="product Description"
-                    v-model="update_product.description"
+                    placeholder="Product Description"
+                    v-model="update_product.descr"
                   ></textarea>
                 </div>
               </div>
@@ -210,7 +186,7 @@
                   @click="updateproduct"
                   class="btn btn-secondary btn-sm"
                 >
-                  Submit
+                  Update
                 </button>
               </div>
             </div>
@@ -243,17 +219,29 @@ export default {
   },
 
   computed: {
-     canEdit() {
-      return this.$store.getters['permissions/canEdit'];
+    canEdit() {
+      let user = JSON.parse(localStorage.getItem("Test.user"));
+      if (user.type == 1 || user.type == 2) return true;
     },
+
     canDelete() {
-      return this.$store.getters['permissions/canDelete'];
+      let user = JSON.parse(localStorage.getItem("Test.user"));
+      if (user && user.type == 1) return true;
+    },
+
+    canAdd() {
+      let user = JSON.parse(localStorage.getItem("Test.user"));
+      if (user && user.type == 1) return true;
+    },
+
+    canView() {
+      let user = JSON.parse(localStorage.getItem("Test.user"));
+      if (user.type == 1 || user.type == 2 || user.type == 3) return true;
     },
   },
 
   methods: {
     initProduct() {
-      this.errors = [];
       this.reset();
       $("#addProductModal").modal("show");
     },
@@ -263,12 +251,13 @@ export default {
         .post("/api/products", {
           title: this.product.title,
           description: this.product.descr,
+          loggedInUserId: JSON.parse(localStorage.getItem("Test.user")).id,
         })
         .then((response) => {
           $("#addProductModal").modal("hide");
           let type = {
             title: this.product.title,
-            description: this.product.descr,
+            descr: this.product.descr,
           };
           this.products.push(type);
           this.reset();
@@ -285,23 +274,26 @@ export default {
 
     fetchProducts(page = 1) {
       axios.defaults.headers.common["Authorization"] =
-        "Bearer " + localStorage.getItem("test.jwt");
+        "Bearer " + localStorage.getItem("Test.jwt");
       axios.get("/api/products?page=" + page, {}).then((response) => {
         this.products = response.data.products;
       });
     },
 
-    initUpdate(index) {
-      this.errors = [];
+    initUpdate(id) {
       $("#updateProductModal").modal("show");
-      this.update_product = this.products.data[index];
+      let cat = this.products.filter((category) => category.id == id);
+      cat.forEach((e) => {
+        this.update_product = e;
+      });
     },
 
     updateproduct() {
       axios
         .patch("/api/products/" + this.update_product.id, {
           title: this.update_product.title,
-          description: this.update_product.description,
+          description: this.update_product.descr,
+          loggedInUserId: JSON.parse(localStorage.getItem("Test.user")).id,
         })
         .then((response) => {
           $("#updateProductModal").modal("hide");
@@ -313,9 +305,12 @@ export default {
 
     deleteproduct(index) {
       axios.defaults.headers.common["Authorization"] =
-        "Bearer " + localStorage.getItem("test.jwt");
+        "Bearer " + localStorage.getItem("Test.jwt");
       axios
-        .delete("/api/products/" + this.products.data[index].id)
+        .post("/api/products/delete", {
+          loggedInUserId: JSON.parse(localStorage.getItem("Test.user")).id,
+          id: this.products[index].id,
+        })
         .then((response) => {
           if (response.data.response == "success") {
             this.products.splice(index, 1);
@@ -323,12 +318,43 @@ export default {
         });
     },
 
+    logout() {
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + localStorage.getItem("Test.jwt");
+      axios
+        .get("api/logout/" + JSON.parse(localStorage.getItem("Test.user")).id)
+        .then((response) => {
+          this.clear_local_storage();
+          delete axios.defaults.headers.common["Authorization"];
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          this.clear_local_storage();
+          delete axios.defaults.headers.common["Authorization"];
+          this.$router.push("/");
+        });
+    },
+
+    clear_local_storage() {
+      localStorage.removeItem("Test.jwt");
+      localStorage.removeItem("Test.user");
+    },
   },
 };
 </script>
-<style scoped lang="scss">
-.page-item.active .page-link {
-  background-color: #000 !important;
-  border-color: #000 !important;
+<style lang="scss" scoped>
+$position: center;
+$color: red;
+
+@media (min-width: 1200px) {
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    max-width: 1200px !important;
+    background-color: white;
+    margin-top: 2rem;
+  }
 }
 </style>

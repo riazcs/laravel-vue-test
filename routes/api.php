@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\Http\Controllers')->group(function () {
     Route::post('login', 'LoginController@login');
-    Route::middleware('loggedIn')->group(function () { 
-        Route::resource('products', ProductController::class);
-    });
+    Route::get('logout/{id}', 'LoginController@logout');
+    Route::resource('products', ProductController::class)->except('destroy');
+    Route::post('products/delete', 'ProductController@destroy');
 });

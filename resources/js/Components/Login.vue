@@ -102,9 +102,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-//  @import url("https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css");
-// @import '@/scss/variable.scss';
-
 $position: center;
 $color: red;
 
@@ -114,7 +111,7 @@ $color: red;
   .container-md,
   .container-sm,
   .container-xl {
-    max-width: 800px !important;
+    max-width: 400px !important;
     background-color: white;
     margin-top: 2rem;
   }

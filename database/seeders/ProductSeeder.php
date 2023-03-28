@@ -31,15 +31,15 @@ class ProductSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'title' => 'Megazine: Textile Today April 2020',
-                'descr' => 'It’s a comprehensive magazine for textile, apparel & fashion industry.',
+                'title' => 'Lorem ipsum, dolor sit amet',
+                'descr' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore consequatur hic nesciunt ipsa excepturi magnam unde magni quae pariatur nihil ex delectus voluptatibus, exercitationem doloremque iste autem dolorum, distinctio dolores?',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
 
-                'title' => 'Megazine: Textile Today March 2020',
-                'descr' => 'It’s a comprehensive magazine for textile, apparel & fashion industry.',
+                'title' => 'lorem test',
+                'descr' => "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio repellat culpa neque dicta doloribus alias ad consequuntur harum ipsam animi, sed dolorem earum, rerum voluptas natus accusamus quia deserunt et!",
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

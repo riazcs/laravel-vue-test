@@ -11,3 +11,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+resources/js/Pages/Dashboard.vue
+public/0.js
+public/1.js
+public/js/app.js

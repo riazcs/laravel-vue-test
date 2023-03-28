@@ -148,7 +148,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@media (min-width: 1200px) {\n.container[data-v-77a1bfae],\n.container-lg[data-v-77a1bfae],\n.container-md[data-v-77a1bfae],\n.container-sm[data-v-77a1bfae],\n.container-xl[data-v-77a1bfae] {\n    max-width: 800px !important;\n    background-color: white;\n    margin-top: 2rem;\n}\n}", ""]);
+exports.push([module.i, "@media (min-width: 1200px) {\n.container[data-v-77a1bfae],\n.container-lg[data-v-77a1bfae],\n.container-md[data-v-77a1bfae],\n.container-sm[data-v-77a1bfae],\n.container-xl[data-v-77a1bfae] {\n    max-width: 400px !important;\n    background-color: white;\n    margin-top: 2rem;\n}\n}", ""]);
 
 // exports
 
